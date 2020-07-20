@@ -58,6 +58,10 @@ export default {
     // Doc: https://buefy.github.io/#/documentation
     'nuxt-buefy'
   ],
+  
+  generate: {
+    fallback: true
+  },
   /*
   ** Build configuration
   ** See https://nuxtjs.org/api/configuration-build/

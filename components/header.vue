@@ -6,7 +6,7 @@
           <div class="logo">
             <b-navbar-item tag="router-link" :to="{ path: '/' }">
               <img class="isotipe" src="~assets/images/isotipe.svg" alt />
-              <img src="~assets/images/Blooz.svg" alt />
+              <img src="~assets/images/blooz.svg" alt />
             </b-navbar-item>
           </div>
         </template>
