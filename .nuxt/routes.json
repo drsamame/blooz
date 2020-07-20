@@ -1,0 +1,16 @@
+[
+  {
+    "name": "inspire",
+    "path": "/inspire",
+    "component": "/Users/diegosamamesalazar/Documents/projects/blooz/pages/inspire.vue",
+    "chunkName": "pages/inspire",
+    "_name": "_f646d69a"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "/Users/diegosamamesalazar/Documents/projects/blooz/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_7c20aa2a"
+  }
+]
