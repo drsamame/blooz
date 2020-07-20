@@ -1,7 +1,16 @@
-@import "~bulma/sass/utilities/_all.sass";
+@import "~bulma/sass/utilities/_all";
+@import 'variables';
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
+@import 'buttons'; 
 
 
-$titlecolor:red;
 
-
-@import "~bulma/bulma";
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  
+}
+  
+.fade-enter, .fade-leave-to  {
+    opacity: 0;
+}

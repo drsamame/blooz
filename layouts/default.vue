@@ -1,55 +1,54 @@
 <template>
   <div>
-    <nuxt />
+    <Header />
+    <div class="content">
+      <nuxt />
+    </div>
+    <footer class="footer">
+      <div class="content has-text-start">
+        <div class="container">
+          <div class="columns">
+            <div class="column is-6">
+              <p class="copy">2020 Blooz Todos los derechos reservados</p>
+            </div>
+            <div class="column is-6">
+              <div class="icons">
+                <b-icon icon="facebook" size="is-small"></b-icon>
+                <b-icon icon="instagram" size="is-small"></b-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
   </div>
 </template>
 
-<style>
-html {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
-  word-spacing: 1px;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  box-sizing: border-box;
-}
+<script>
+import Header from '~/components/header' 
+export default {
+  name: "layout",
+  components: {
+    Header,
+  },
+  data() {
+    return {
+      items: [
+        {
+          title: "Home",
+          icon: "home",
+          to: { name: "index" }
+        },
+        {
+          title: "Inspire",
+          icon: "lightbulb",
+          to: { name: "inspire" }
+        }
+      ]
+    };
+  }
+};
+</script>
+<style lang="scss" scoped>
 
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-  margin: 0;
-}
-
-.button--green {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #3b8070;
-  color: #3b8070;
-  text-decoration: none;
-  padding: 10px 30px;
-}
-
-.button--green:hover {
-  color: #fff;
-  background-color: #3b8070;
-}
-
-.button--grey {
-  display: inline-block;
-  border-radius: 4px;
-  border: 1px solid #35495e;
-  color: #35495e;
-  text-decoration: none;
-  padding: 10px 30px;
-  margin-left: 15px;
-}
-
-.button--grey:hover {
-  color: #fff;
-  background-color: #35495e;
-}
 </style>

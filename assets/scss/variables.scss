@@ -1,0 +1,33 @@
+// Set your colors
+$primary: #205071;
+$primary-invert: findColorInvert($primary);
+$background: #F8F8FA;
+$fullhd-enabled: false;
+$family-primary:  'Montserrat', $family-sans-serif;
+
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: (
+    "white": ($white, $black),
+    "black": ($black, $white),
+    "light": ($light, $light-invert),
+    "dark": ($dark, $dark-invert),
+    "primary": ($primary, $primary-invert),
+    "info": ($info, $info-invert),
+    "success": ($success, $success-invert),
+    "warning": ($warning, $warning-invert),
+    "danger": ($danger, $danger-invert),
+);
+
+// Theme variables
+:root {
+    --main-bg-color: coral;
+    //Theme
+    --color-empresa: #FF6461;
+    --color-repartidor: #40C1C8;
+    --color-primary: #205071;
+  }
+
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
