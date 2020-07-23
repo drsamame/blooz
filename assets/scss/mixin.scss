@@ -1,0 +1,15 @@
+//Responsive
+$tablet: 1023px;
+$mobile: 768px;
+
+@mixin tablet() {
+  @media (max-width: #{$tablet}) {
+    @content;
+  }
+}
+
+@mixin mobile() {
+  @media (max-width: #{$mobile}) {
+    @content;
+  }
+}

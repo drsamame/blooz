@@ -56,8 +56,15 @@ export default {
   */
   modules: [
     // Doc: https://buefy.github.io/#/documentation
-    'nuxt-buefy'
+    'nuxt-buefy',
+    '@nuxtjs/style-resources'
   ],
+
+  styleResources: {
+    scss: [
+        '~/assets/scss/mixin.scss',
+    ]
+  },
   
   generate: {
     fallback: true

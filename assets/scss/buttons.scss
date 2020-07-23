@@ -3,13 +3,24 @@
     font-size: 12px;
     font-weight: 600;
     line-height: 15px;
-    border-radius: 18.5px; 
+    border-radius: 18.5px;
     height: 36px;
     align-items: center;
     padding: 0 25px;
+    text-align: center;
     background-color: var(--color-primary);
-    &.trans{
+    &.primary {
+        color: #fff;
+    }
+    &.trans {
         background-color: transparent;
         border: 1px solid var(--color-primary);
+    }
+    &.client {
+        background-color: var(--color-client);
+        color: #fff;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 15px;
     }
 }

@@ -1,14 +1,32 @@
 {
-  "Logo": {
-    "description": "Auto imported from components/Logo.vue"
+  "BannerClient": {
+    "description": "Auto imported from components/public/bannerClient.vue"
   },
-  "LazyLogo": {
-    "description": "Auto imported from components/Logo.vue"
+  "LazyBannerClient": {
+    "description": "Auto imported from components/public/bannerClient.vue"
   },
   "Header": {
-    "description": "Auto imported from components/header.vue"
+    "description": "Auto imported from components/public/header.vue"
   },
   "LazyHeader": {
-    "description": "Auto imported from components/header.vue"
+    "description": "Auto imported from components/public/header.vue"
+  },
+  "HowWorks": {
+    "description": "Auto imported from components/public/howWorks.vue"
+  },
+  "LazyHowWorks": {
+    "description": "Auto imported from components/public/howWorks.vue"
+  },
+  "OurClients": {
+    "description": "Auto imported from components/public/ourClients.vue"
+  },
+  "LazyOurClients": {
+    "description": "Auto imported from components/public/ourClients.vue"
+  },
+  "WhyChoose": {
+    "description": "Auto imported from components/public/whyChoose.vue"
+  },
+  "LazyWhyChoose": {
+    "description": "Auto imported from components/public/whyChoose.vue"
   }
 }
