@@ -1,3 +1,4 @@
+const isDev = process.env.NODE_ENV !== "production";
 
 export default {
   /*
@@ -22,14 +23,14 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }, 
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap"' }
     ]
   },
   /*
   ** Global CSS
   */
- css: [
+  css: [
     // SCSS file in the project
     '@/assets/scss/main.scss'
   ],
@@ -38,6 +39,8 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    { src: "~plugins/validate.js" },
+    { src: "~/plugins/global.js" },
   ],
   /*
   ** Auto import components
@@ -57,15 +60,16 @@ export default {
   modules: [
     // Doc: https://buefy.github.io/#/documentation
     'nuxt-buefy',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@neneos/nuxt-animate.css'
   ],
 
   styleResources: {
     scss: [
-        '~/assets/scss/mixin.scss',
+      '~/assets/scss/mixin.scss',
     ]
   },
-  
+
   generate: {
     fallback: true
   },
@@ -74,5 +78,20 @@ export default {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
+    extractCSS: !isDev,
+    transpile: ["vee-validate/dist/rules"],
+    extend(config, { isDev, isClient }) {
+      if (isDev && isClient) {
+        config.module.rules.push({
+          enforce: "pre",
+          test: /\.(js|vue)$/,
+          loader: "eslint-loader",
+          exclude: /node_modules/,
+          options: {
+            fix: true
+          }
+        });
+      }
+    }
   }
 }

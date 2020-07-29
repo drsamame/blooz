@@ -295,11 +295,9 @@ export default {
   data() {
     return {
       scrollPosition: null,
-      h: undefined,
     };
   },
   mounted() {
-    this.h = document.getElementById("banner").clientHeight;
     window.addEventListener("scroll", this.updateScroll);
   },
   methods: {
@@ -313,7 +311,7 @@ export default {
   computed: {
     navColor() {
       return {
-        transparent: this.scrollPosition < this.h - 70,
+        transparent: this.scrollPosition < 90,
       };
     },
   },

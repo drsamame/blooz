@@ -1,21 +1,16 @@
 <template>
   <div>
-    <Header />
-    <transition name="fade">
-      <nuxt />
-    </transition>
-    <Footer />
+    <!--<Header />-->
+    <nuxt />
   </div>
 </template>
 
 <script>
 import Header from "~/components/public/header";
-import Footer from "~/components/public/footer";
 export default {
-  name: "layout",
+  name: "layoutRegister",
   components: {
     Header,
-    Footer,
   },
   data() {
     return {
@@ -23,16 +18,16 @@ export default {
         {
           title: "Home",
           icon: "home",
-          to: { name: "index" },
+          to: { name: "index" }
         },
         {
           title: "Inspire",
           icon: "lightbulb",
-          to: { name: "inspire" },
-        },
-      ],
+          to: { name: "inspire" }
+        }
+      ]
     };
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>
