@@ -7,7 +7,7 @@
             <img src="~assets/images/logo-empresa.svg" alt />
             <h3 class="title">Con Blooz entrega tus pedidos a la casa de tus clientes ¡Con un click!</h3>
             <p class="text">Estamos para solucionar tus problemas de logística.</p>
-            <nuxt-link class="btn primary" to="/repartidor">Quiero postular</nuxt-link>
+            <nuxt-link class="btn primary" to="/postular-negocio">Quiero postular</nuxt-link>
           </article>
         </div>
         <div class="column is-7 hide-tablet">

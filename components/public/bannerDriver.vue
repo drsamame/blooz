@@ -9,7 +9,7 @@
             <p
               class="text"
             >Blooz continua su crecimiento y está buscando aumentar su red de repartidores.</p>
-            <nuxt-link class="btn primary" to="/repartidor">Quiero postular</nuxt-link>
+            <nuxt-link class="btn primary" to="/postular-repartidor">Quiero postular</nuxt-link>
           </article>
         </div>
         <div class="column is-7 hide-tablet">

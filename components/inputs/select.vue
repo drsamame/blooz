@@ -1,6 +1,7 @@
 <template>
   <ValidationProvider :vid="vid" :name="$attrs.name" :rules="rules" v-slot="{ errors }">
     <b-field v-bind="$attrs" :type="{ 'is-danger': errors[0]}" :message="errors">
+      <p v-show="description" v-html="description" class="description"></p>
       <b-select v-bind="$attrs" v-model="innerValue">
         <slot />
       </b-select>
@@ -8,6 +9,17 @@
   </ValidationProvider>
 </template>
 <style lang="scss" scoped>
+/deep/ .field {
+  flex-direction: column;
+}
+
+.description {
+  font-size: 14px;
+  line-height: 15px;
+  font-weight: normal;
+  margin-bottom: 20px;
+}
+
 /deep/ .select {
   select {
     border-right: none;
@@ -54,6 +66,9 @@ export default {
     },
     // must be included in props
     value: {
+      type: null,
+    },
+    description: {
       type: null,
     },
   },

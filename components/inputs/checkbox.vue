@@ -2,12 +2,21 @@
   <ValidationProvider :vid="vid" :name="$attrs.name" :rules="rules" v-slot="{ errors }">
     <div class="block">
       <label v-show="$attrs.label" class="label">{{$attrs.label}}</label>
+      <p v-show="description" v-html="description" class="description"></p>
       <slot />
       <p class="has-text-danger">{{ errors[0] }}</p>
     </div>
   </ValidationProvider>
 </template>
 <style lang="scss" scoped>
+.block {
+  .description {
+    font-size: 14px;
+    line-height: 15px;
+    font-weight: normal;
+    margin-bottom: 20px;
+  }
+}
 /deep/ .has-text-danger {
   font-size: 12px;
 }
@@ -30,8 +39,8 @@
       padding-left: 12px;
       p {
         line-height: 20px;
-        a{
-          &:hover{
+        a {
+          &:hover {
             text-decoration: underline;
             color: var(--color-primary);
           }
@@ -71,6 +80,9 @@ export default {
     rules: {
       type: [Object, String],
       default: "",
+    },
+    description: {
+      type: null,
     },
   },
 };

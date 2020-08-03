@@ -1,6 +1,7 @@
 <template>
   <ValidationProvider :vid="vid" :name="$attrs.name" :rules="rules" v-slot="{ errors }">
     <b-field v-bind="$attrs" :type="{ 'is-danger': errors[0]}" :message="errors">
+      <p v-show="description" v-html="description" class="description"></p>
       <b-datepicker
         v-bind="$attrs"
         v-model="innerValue"
@@ -22,6 +23,8 @@
   font-size: 12px;
 }
 /deep/ .field {
+  display: flex;
+  flex-direction: column;
   .control {
     .icon {
       width: 20px;
@@ -94,6 +97,9 @@ export default {
     },
     // must be included in props
     value: {
+      type: null,
+    },
+    description: {
       type: null,
     },
   },

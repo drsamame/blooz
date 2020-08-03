@@ -45,7 +45,6 @@
                   :label="field.label"
                   :name="field.name"
                   @change.native="onChangeRadio(field)"
-
                 >
                   <template v-for="item in field.options">
                     <b-radio
@@ -65,12 +64,25 @@
                   expanded
                   :placeholder="field.placeholder"
                   v-model="field.selected"
+                  :description="(field.description)? field.description: false"
                   @change.native="onChangeSelect(field)"
                 >
                   <template v-for="item in typeDocuments">
                     <option :value="item.value" :key="item.value">{{item.label}}</option>
                   </template>
                 </BSelectWithValidation>
+              </template>
+
+              <template v-if="field.type === 'datepicker'">
+                <BDatepickerWithValidation
+                  :rules="field.rules"
+                  :label="field.label"
+                  :name="field.name"
+                  :placeholder="field.placeholder"
+                  v-model="field.value"
+                  :description="(field.description)? field.description: false"
+                  @input="onChangeDatepicker(field)"
+                ></BDatepickerWithValidation>
               </template>
             </div>
           </div>
@@ -86,6 +98,7 @@ import BSelectWithValidation from "@/components/inputs/select";
 import BInputWithValidation from "@/components/inputs/input";
 import BCheckboxesWithValidation from "@/components/inputs/checkbox";
 import BRadiosWithValidation from "@/components/inputs/radio";
+import BDatepickerWithValidation from "@/components/inputs/datepicker";
 
 export default {
   layout: "layout-register",
@@ -96,6 +109,7 @@ export default {
     BInputWithValidation,
     BCheckboxesWithValidation,
     BRadiosWithValidation,
+    BDatepickerWithValidation,
   },
   data() {
     return {
@@ -111,12 +125,22 @@ export default {
       ],
       structure: [
         {
+          type: "datepicker",
+          rules: "required",
+          description: "aqui va",
+          name: "birth_date",
+          rules: "required",
+          placeholder: "Escribe tu respuesta",
+          label: "Fecha de Nacimiento",
+        },
+        {
           type: "select",
           name: "place",
           selected: null,
           rules: "required",
           placeholder: "Seleccionar Placeholder",
           label: "Select Placeholder",
+          description: "dsadsada",
         },
         {
           type: "select",
@@ -176,6 +200,7 @@ export default {
           type: "radio",
           name: "typeLocal",
           selected: "",
+          description: "dsadsada",
           rules: "required",
           label: "¿Qué tipo de local comercial tienes?",
           valid: false,
@@ -223,8 +248,7 @@ export default {
       console.log(field);
     },
     onSingleValidation(result, name) {
-      console.log(result,name)
-    
+      console.log(result, name);
     },
     submit() {
       console.log("Form submitted yay!");

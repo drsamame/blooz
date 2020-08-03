@@ -7,11 +7,12 @@
     v-slot="{ errors }"
   >
     <b-field v-bind="$attrs" :type="{ 'is-danger': errors[0] }" :message="errors">
+      <p v-show="description" v-html="description" class="description"></p>
       <b-input
         v-model="innerValue"
         v-bind="$attrs"
         :has-counter="false"
-        :placeholder="$attrs.placeholder || $attrs.label"
+        :placeholder="$attrs.placeholder"
         :maxlength="maxNumber"
         :class="$attrs.name"
         @keypress.native="filter"
@@ -40,6 +41,9 @@ export default {
     value: {
       type: null,
     },
+    description: {
+      type: null,
+    },
   },
 
   data: () => ({
@@ -49,7 +53,7 @@ export default {
 
   computed: {
     maxNumber() {
-      let number = ""; 
+      let number = "";
       if (typeof this.rules === "string") {
         if (this.rules.match(/max/g) !== null) {
           this.isMax = true;
@@ -117,6 +121,16 @@ export default {
   font-size: 12px;
 }
 /deep/ .field {
+  display: flex;
+  flex-direction: column;
+  .description {
+    font-size: 14px;
+    line-height: 15px;
+    font-weight: normal;
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
+
   .control {
     /*
     &.phone {

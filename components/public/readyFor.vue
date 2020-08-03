@@ -5,7 +5,7 @@
         <div class="column is-half">
           <h2 class="title">¿Listo para ser un repartidor Blooz?</h2>
           <p class="text">Trabajamos con más de 100 repartidores que postularon exitosamente</p>
-          <nuxt-link to="/registro" class="btn client">Quiero postular</nuxt-link>
+          <nuxt-link to="/postular-repartidor" class="btn client">Quiero postular</nuxt-link>
         </div>
       </div>
     </div>

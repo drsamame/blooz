@@ -31,6 +31,7 @@
                     :rules="field.rules"
                     :type="field.type"
                     :label="field.label"
+                    :description="(field.description)? field.description: false"
                     :name="field.name"
                     :placeholder="field.placeholder"
                     v-model="field.value"
@@ -43,6 +44,7 @@
                     :rules="field.rules"
                     :label="field.label"
                     :name="field.name"
+                    :description="(field.description)? field.description: false"
                   >
                     <template v-for="item in field.options">
                       <b-checkbox v-model="field.value" :key="item.value">
@@ -57,6 +59,7 @@
                     :rules="field.rules"
                     :label="field.label"
                     :name="field.name"
+                    :description="(field.description)? field.description: false"
                     @change.native="onChangeRadio(field)"
                   >
                     <template v-for="item in field.options">
@@ -87,6 +90,7 @@
                     :label="field.label"
                     :name="field.name"
                     :placeholder="field.placeholder"
+                    :description="(field.description)? field.description: false"
                     v-model="field.value"
                     @input="onChangeDatepicker(field)"
                   ></BDatepickerWithValidation>
@@ -238,50 +242,52 @@ export default {
         },
         {
           position: 8,
+          placeholder: "Escribe tu respuesta",
+          label: "Información sobre tu vehículo",
           rules: "required|max:20|min:2|alpha_num_spaces",
+          description: "Indicanos la marca",
           type: "text",
           name: "vehice_brand",
-          label: "Información sobre tu vehículo",
-          value: "",
+
           valid: false,
-          placeholder: "Escribe la Marca",
         },
         {
           position: 9,
+          label: "Información sobre tu vehículo",
+          description: "Indicanos el modelo",
+          placeholder: "Escribe tu respuesta",
           rules: "required|max:20|min:2|alpha_num_spaces",
           type: "text",
           name: "vehice_model",
-          label: "Información sobre tu vehículo",
-          value: "",
           valid: false,
-          placeholder: "Ingresa el Modelo",
         },
         {
           position: 10,
+          label: "Información sobre tu vehículo",
+          description: "Indicanos el año",
+          placeholder: "Escribe tu respuesta",
           rules: "required|max:4|min:2",
           type: "number",
           name: "vehice_year",
-          label: "Información sobre tu vehículo",
-          value: "",
           valid: false,
-          placeholder: "Ingresa el Año",
         },
         {
           position: 11,
+          label: "Información sobre tu vehículo",
+          description: "Indicanos la placa",
+          placeholder: "Escribe tu respuesta",
           rules: "required|max:8|min:2|alpha_dash",
           type: "text",
           name: "vehice_id",
-          label: "Información sobre tu vehículo",
-          value: "",
           valid: false,
-          placeholder: "Escribe la placa",
         },
         {
           position: 12,
           type: "radio",
           name: "vehicle_is_owner",
           rules: "required",
-          label: "¿Carro propio?",
+          label: "Información sobre tu vehículo",
+          description: "Indicanos si eres dueño",
           valid: false,
           options: [
             {
@@ -299,7 +305,8 @@ export default {
           type: "radio",
           name: "vehicle_fuel",
           rules: "required",
-          label: "Tipo de combustible",
+          label: "Información sobre tu vehículo",
+          description: "Indicanos el tipo de combustible ",
           valid: false,
           options: [
             {
@@ -339,6 +346,7 @@ export default {
           type: "checkbox",
           name: "accept_terms",
           checked: false,
+          description: "abbbalall",
           label: "Términos y condiciones",
           options: [
             {

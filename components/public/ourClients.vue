@@ -5,7 +5,7 @@
         <div class="column is-6">
           <h2 class="title">Nuestros clientes están encantados</h2>
           <p class="text">Más de 100 empresas confían en nosotros</p>
-          <nuxt-link to="/registro" class="btn client">Quiero postular</nuxt-link>
+          <nuxt-link to="/postular-negocio" class="btn client">Quiero postular</nuxt-link>
         </div>
         <div class="column is-6">
           <div class="content-carousel">

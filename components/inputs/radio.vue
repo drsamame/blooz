@@ -2,12 +2,23 @@
   <ValidationProvider :vid="vid" :name="$attrs.name" :rules="rules" v-slot="{ errors }">
     <div class="block">
       <label v-show="$attrs.label" class="label">{{$attrs.label}}</label>
+      <p v-show="description" v-html="description" class="description"></p>
       <slot />
       <p class="has-text-danger">{{ errors[0]}}</p>
     </div>
   </ValidationProvider>
 </template>
 <style lang="scss" scoped>
+.block {
+  .description {
+    font-size: 14px;
+    line-height: 15px;
+    font-weight: normal;
+    margin-top: -10px;
+    margin-bottom: 20px;
+  }
+}
+
 .label {
   font-weight: 600;
   font-size: 14px;
@@ -15,7 +26,7 @@
   margin-bottom: 16px;
   color: var(--color-primary);
 }
-/deep/ .has-text-danger{
+/deep/ .has-text-danger {
   font-size: 12px;
 }
 /deep/ .b-radio {
@@ -40,9 +51,9 @@
         }
       }
       & + .check {
-        background: #ffffff ;
-        border: 1px solid #adb5bd ;
-        border-radius: 12px ;
+        background: #ffffff;
+        border: 1px solid #adb5bd;
+        border-radius: 12px;
       }
     }
   }
@@ -62,6 +73,9 @@ export default {
     rules: {
       type: [Object, String],
       default: "",
+    },
+    description: {
+      type: null,
     },
   },
 };
