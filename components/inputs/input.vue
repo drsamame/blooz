@@ -2,7 +2,7 @@
   <ValidationProvider
     ref="refProvider"
     :vid="vid"
-    :name="$attrs.name || $attrs.label"
+    :name="$attrs.name"
     :rules="rules"
     v-slot="{ errors }"
   >
@@ -44,19 +44,29 @@ export default {
 
   data: () => ({
     innerValue: "",
+    isMax: false,
   }),
 
   computed: {
     maxNumber() {
-      let number = "";
-
-      this.rules.split("|").find((item) => {
-        let isMax = item.indexOf("max") !== -1;
-
-        if (isMax) {
-          number = item.match(/[0-9]+/g)[0];
+      let number = ""; 
+      if (typeof this.rules === "string") {
+        if (this.rules.match(/max/g) !== null) {
+          this.isMax = true;
+          if (this.isMax) {
+            number = this.rules.match(/[0-9]+/g)[0];
+          }
         }
-      });
+      }
+
+      if (typeof this.rules === "object") {
+        if (this.rules.hasOwnProperty("max")) {
+          this.isMax = true;
+          if (this.isMax) {
+            number = this.rules.max;
+          }
+        }
+      }
 
       return number;
     },
@@ -80,15 +90,17 @@ export default {
     filter(evt) {
       let maxLength = this.maxNumber;
 
-      if (evt.target.value.length < parseInt(maxLength)) {
-        if (this.$attrs.type === "number") {
-          let keyCode = evt.keyCode ? evt.keyCode : evt.which;
-          if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
-            evt.preventDefault();
+      if (this.isMax) {
+        if (evt.target.value.length < parseInt(maxLength)) {
+          if (this.$attrs.type === "number") {
+            let keyCode = evt.keyCode ? evt.keyCode : evt.which;
+            if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+              evt.preventDefault();
+            }
           }
+        } else {
+          evt.preventDefault();
         }
-      } else {
-        evt.preventDefault();
       }
     },
   },
@@ -101,8 +113,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/ .has-text-danger {
+  font-size: 12px;
+}
 /deep/ .field {
   .control {
+    /*
     &.phone {
       &::before {
         font-weight: 500;
@@ -118,6 +134,8 @@ export default {
         padding-left: 30px;
       }
     }
+    */
+
     .counter {
       display: none;
     }

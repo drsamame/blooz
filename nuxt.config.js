@@ -41,6 +41,7 @@ export default {
   plugins: [
     { src: "~plugins/validate.js" },
     { src: "~/plugins/global.js" },
+    //{ src: '@/plugins/axios.js', ssr: false },
   ],
   /*
   ** Auto import components

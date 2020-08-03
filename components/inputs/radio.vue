@@ -3,22 +3,23 @@
     <div class="block">
       <label v-show="$attrs.label" class="label">{{$attrs.label}}</label>
       <slot />
-      <p class="has-text-danger">{{ errors[0] }}</p>
+      <p class="has-text-danger">{{ errors[0]}}</p>
     </div>
   </ValidationProvider>
 </template>
 <style lang="scss" scoped>
-/deep/ .has-text-danger {
-  font-size: 12px;
-}
 .label {
   font-weight: 600;
   font-size: 14px;
   line-height: 24px;
+  margin-bottom: 16px;
   color: var(--color-primary);
 }
-/deep/ .b-checkbox {
-  &.checkbox {
+/deep/ .has-text-danger{
+  font-size: 12px;
+}
+/deep/ .b-radio {
+  &.radio {
     display: flex;
     flex: 1;
     margin-bottom: 12px;
@@ -28,30 +29,20 @@
       line-height: 24px;
       color: #2b2b2b;
       padding-left: 12px;
-      p {
-        line-height: 20px;
-        a{
-          &:hover{
-            text-decoration: underline;
-            color: var(--color-primary);
-          }
-        }
-      }
     }
-    input[type="checkbox"] {
+    input[type="radio"] {
       &:checked {
         & + .check {
-          background-color: rgba(32, 80, 113, 0.1);
-          background-image: url(~assets/images/check.svg);
+          background: rgba(32, 80, 113, 0.1);
           border: 1px solid #205071;
-          border-radius: 4px;
+          border-radius: 12px;
+          box-shadow: none;
         }
       }
       & + .check {
-        transition: none;
-        box-shadow: none !important;
-        border: 1px solid #adb5bd;
-        border-radius: 4px;
+        background: #ffffff ;
+        border: 1px solid #adb5bd ;
+        border-radius: 12px ;
       }
     }
   }

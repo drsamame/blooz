@@ -50,6 +50,7 @@
 }
 .btn {
   max-width: 150px;
+  display: flex;
   margin: 0 auto;
 }
 </style>

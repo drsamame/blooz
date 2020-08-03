@@ -17,9 +17,11 @@
           </div>
         </template>
         <template slot="start">
-          <nuxt-link to="/repartidor" :class="{active: $route.name==='repartidor'}" class="navbar-item" >
-            Quiero ser repartidor
-          </nuxt-link>
+          <nuxt-link
+            to="/repartidor"
+            :class="{active: $route.name==='repartidor'}"
+            class="navbar-item"
+          >Quiero ser repartidor</nuxt-link>
           <b-navbar-item href="#">Quiénes somos</b-navbar-item>
         </template>
         <template slot="end">
@@ -27,12 +29,12 @@
             <nuxt-link to="/login" class="btn trans">Iniciar sesión</nuxt-link>
           </b-navbar-item>
           <b-navbar-dropdown label="Quiero postular">
-            <b-navbar-item href="#">
+            <nuxt-link class="navbar-item" to="/postular-negocio" >
               <img src="~assets/images/logo-empresa.svg" alt />Como empresa
-            </b-navbar-item>
-            <b-navbar-item href="#">
+            </nuxt-link>
+            <nuxt-link class="navbar-item" to="/postular-repartidor">
               <img src="~assets/images/logo-repartidor.svg" alt />Como repartidor
-            </b-navbar-item>
+            </nuxt-link>
           </b-navbar-dropdown>
         </template>
       </b-navbar>
@@ -77,7 +79,7 @@
       .navbar-start {
         .navbar-item {
           color: #fff;
-          &:focus{
+          &:focus {
             background-color: transparent;
           }
           @include tablet {
@@ -131,7 +133,7 @@
   }
 
   .navbar-burger {
-    &:hover{
+    &:hover {
       background-color: transparent;
     }
     @include tablet {
