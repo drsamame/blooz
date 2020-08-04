@@ -6,8 +6,8 @@
           <template slot="brand">
             <div class="logo">
               <b-navbar-item tag="router-link" to="/">
-                <img class="isotipe" src="~assets/images/isotipe.svg" alt />
-                <img src="~assets/images/blooz.svg" alt />
+                <img class="isotipe" src="~assets/images/isotipe-white.svg" alt />
+                <img src="~assets/images/blooz-white.svg" alt />
               </b-navbar-item>
             </div>
           </template>
@@ -15,18 +15,17 @@
             <b-navbar-item href="#">Quiero postular</b-navbar-item>
           </template>
           <template slot="end">
-            <div class="switcher" v-show="$route.name == 'postular-negocio' || $route.name == 'postular-repartidor'">
-              <nuxt-link
-                to="/postular-negocio"
-                class="client"
-                :class="{active : $route.name === 'postular-negocio'}"
-              ></nuxt-link>
-              <nuxt-link
-                to="/postular-repartidor"
-                class="driver"
-                :class="{active : $route.name === 'postular-repartidor'}"
-              ></nuxt-link>
-            </div>
+            <p class="call">
+              ¿No tienes una cuenta? &nbsp;<b>¡Postula!</b>
+            </p>
+            <b-navbar-dropdown label="Quiero postular">
+              <nuxt-link class="navbar-item" to="/postular-negocio">
+                <img src="~assets/images/logo-empresa.svg" alt />Como empresa
+              </nuxt-link>
+              <nuxt-link class="navbar-item" to="/postular-repartidor">
+                <img src="~assets/images/logo-repartidor.svg" alt />Como repartidor
+              </nuxt-link>
+            </b-navbar-dropdown>
           </template>
         </b-navbar>
       </div>
@@ -110,6 +109,9 @@ export default {
   }
 }
 .header {
+  .navbar {
+    background-color: transparent;
+  }
   /deep/ .navbar-menu {
     .navbar-start {
       margin-left: 0px;
@@ -117,7 +119,7 @@ export default {
         margin-left: 0;
       }
       a {
-        color: var(--color-primary);
+        color: #fff;
         font-size: 12px;
         line-height: 15px;
         font-weight: normal;
@@ -131,6 +133,22 @@ export default {
         }
       }
     }
+    .navbar-end {
+      .call {
+        display: flex;
+        align-items: center;
+        color: #fff;
+        font-size: 12px;
+        margin-right: 15px;
+      }
+      .navbar-item {
+        &.has-dropdown {
+          .navbar-link {
+            border: 1px solid #fff;
+          }
+        }
+      }
+    }
   }
 }
 .header {
@@ -139,7 +157,7 @@ export default {
   .logo {
     a {
       padding: 0.2rem 0.75rem;
-      border-right: 1px solid var(--color-primary);
+      border-right: 1px solid #fff;
     }
   }
 }
