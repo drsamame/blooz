@@ -4,8 +4,7 @@
       <div class="intro">
         <img class="logo" src="~assets/images/logo-empresa.svg" alt />
         <div class="text">
-          <h3>Prestamype Estructura</h3>
-          <p>Propuesta nueva estructura</p>
+          <h3>Blooz Ejemplo Formularios</h3>
         </div>
       </div>
       <ValidationObserver tag="form" ref="observer" v-slot="{ passes }">

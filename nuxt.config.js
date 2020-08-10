@@ -39,9 +39,11 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    { src: '~/plugins/nuxt-client-init.js', ssr: false },
+    { src: "~/services/api.js" },
+    { src: "~/services/backend.js" },
     { src: "~plugins/validate.js" },
     { src: "~/plugins/global.js" },
-    //{ src: '@/plugins/axios.js', ssr: false },
   ],
   /*
   ** Auto import components
@@ -61,6 +63,7 @@ export default {
   modules: [
     // Doc: https://buefy.github.io/#/documentation
     'nuxt-buefy',
+    '@nuxtjs/axios',
     '@nuxtjs/style-resources',
     '@neneos/nuxt-animate.css'
   ],

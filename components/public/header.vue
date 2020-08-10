@@ -29,7 +29,7 @@
             <nuxt-link to="/login" class="btn trans">Iniciar sesión</nuxt-link>
           </b-navbar-item>
           <b-navbar-dropdown label="Quiero postular">
-            <nuxt-link class="navbar-item" to="/postular-negocio" >
+            <nuxt-link class="navbar-item" to="/postular-negocio">
               <img src="~assets/images/logo-empresa.svg" alt />Como empresa
             </nuxt-link>
             <nuxt-link class="navbar-item" to="/postular-repartidor">
@@ -43,8 +43,8 @@
       <img src="~assets/images/arrow-up.svg" alt />
     </div>
   </header>
-</template>
-<style lang="scss">
+</template> 
+<style lang="scss" scoped>
 .header {
   min-height: 70px;
   position: fixed;
@@ -95,7 +95,7 @@
       }
       .navbar-end {
         .navbar-item {
-          .btn {
+          /deep/ .btn {
             border-color: #fff;
             color: #fff;
             @include tablet {
@@ -114,6 +114,7 @@
       }
     }
   }
+
   .logo {
     display: flex;
     align-items: center;
@@ -206,7 +207,7 @@
           @include tablet {
             margin-top: 5px;
           }
-          .navbar-link {
+          /deep/ .navbar-link {
             background-color: var(--color-primary);
             background: #205071;
             border-radius: 18.5px;
@@ -237,7 +238,7 @@
               padding: 10px 30px 0;
             }
           }
-          .navbar-dropdown {
+          /deep/ .navbar-dropdown {
             background: #ffffff;
             box-shadow: 1px 3px 8px rgba(0, 0, 0, 0.16);
             border-radius: 8px;

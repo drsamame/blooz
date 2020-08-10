@@ -136,10 +136,20 @@ export default {
 .header {
   background-color: transparent;
   border-bottom: none;
+  min-height: 70px;
+  display:flex;
+  align-items: center;
   .logo {
+    align-items: center;
+    display: flex;
     a {
+      align-items: center;
       padding: 0.2rem 0.75rem;
+      display: flex;
       border-right: 1px solid var(--color-primary);
+      .isotipe{
+        margin-right: 16px;
+      }
     }
   }
 }

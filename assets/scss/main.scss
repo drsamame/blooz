@@ -1,24 +1,48 @@
 @import "~bulma/sass/utilities/_all";
-@import 'variables';
+@import "variables";
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
-@import 'buttons'; 
+@import "buttons";
 
-
-
-.fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s;
 }
-  
-.fade-enter, .fade-leave-to  {
+
+.fade-enter,
+.fade-leave-to {
     opacity: 0;
 }
 
-input[type='number'] {
-    -moz-appearance:textfield;
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
+}
+
+.content-field {
+    display: block;
+    overflow: hidden;
+}
+
+.popup-content-text {
+    font-size: 14px;
+}
+
+.swal2-container {
+    .swal2-popup {
+        width: 100%;
+        max-width: 360px;
+        .swal2-icon{
+            margin-top: 0;
+        }
+        .swal2-title{
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--color-primary);
+        }
+    }
 }

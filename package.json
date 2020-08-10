@@ -14,11 +14,14 @@
   },
   "dependencies": {
     "@neneos/nuxt-animate.css": "0.0.1",
-    "axios": "^0.19.2",
+    "@nuxtjs/axios": "^5.9.5",
+    "cookieparser": "^0.1.0",
+    "js-cookie": "^2.2.1",
     "moment": "^2.27.0",
     "nuxt": "^2.13.0",
     "nuxt-buefy": "^0.3.31",
     "nuxt-sass-resources-loader": "^2.0.5",
+    "sweetalert2": "^9.17.1",
     "vee-validate": "^3.2.5",
     "vuejs-datepicker": "^1.6.2"
   },

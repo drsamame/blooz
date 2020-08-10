@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <footer class="foot">
     <div class="container">
       <div class="columns">
         <div class="column is-6">
@@ -19,8 +19,8 @@
     </div>
   </footer>
 </template>
-<style lang="scss">
-.footer {
+<style lang="scss" scoped>
+.foot {
   background-color: var(--color-primary);
   min-height: 60px;
   padding: 0 20px;

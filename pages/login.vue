@@ -3,7 +3,7 @@
     <div class="content">
       <div class="form">
         <h2>Ingresa a tu cuenta</h2>
-        <ValidationObserver tag="form" ref="observer" v-slot="{ passes }">
+        <ValidationObserver tag="form" ref="form" v-slot="{ passes }">
           <BInputWithValidation
             :rules="{ required: true, alpha_dash: true }"
             type="text"
@@ -20,8 +20,8 @@
             placeholder="Ingresa tu contraseña"
             v-model="model.password"
           />
-          <nuxt-link class="recover" to="/recuperar-contraseña">¿Has olvidado tu contraseña?</nuxt-link>
-          <a @click="passes(submit)" class="btn primary">Ingresar</a>
+          <nuxt-link class="recover" to="/recuperar-cuenta">¿Has olvidado tu contraseña?</nuxt-link>
+          <b-button class="btn primary" @click.native="passes(submit)" :loading="isLoading">Ingresar</b-button>
         </ValidationObserver>
       </div>
     </div>
@@ -30,6 +30,9 @@
 <script>
 import { ValidationObserver } from "vee-validate";
 import BInputWithValidation from "@/components/inputs/input";
+import { mapActions } from "vuex";
+import $backend from "@/services/backend";
+import * as Cookie from "js-cookie";
 
 export default {
   name: "HomePage",
@@ -38,19 +41,35 @@ export default {
   data() {
     return {
       model: {},
-      methods: {
-        submit() {
-          console.log("Form submitted yay!");
-        },
-      },
+      isLoading: false,
     };
+  },
+  methods: {
+    ...mapActions(["setAuth"]),
+    async submit() {
+      this.isLoading = true;
+      try {
+        const response = await $backend.login(this.model);
+        const authData = response.data;
+        Cookie.set("auth", authData);
+        this.setAuth(authData);
+        this.$router.push("/app/mis-pedidos");
+      } catch (err) {
+        const errors = {};
+        for (const item in err.response.data.input) {
+          errors[item] = err.response.data.input[item].name;
+        }
+        this.$refs.form.setErrors(errors);
+        this.isLoading = false;
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 /deep/ .field {
-  margin-bottom: 14px;
+  margin-bottom: 24px;
   display: block;
   position: relative;
   .label {
@@ -71,10 +90,13 @@ export default {
     justify-content: center;
     min-height: 760px;
     flex-direction: column;
-    max-width: 280px;
+    max-width: 320px;
+    width: 100%;
     .form {
       padding: 28px 32px;
       border-radius: 8px;
+      display: block;
+      width: 100%;
       background-color: #fff;
       .recover {
         font-weight: 600;
@@ -95,10 +117,10 @@ export default {
         color: var(--color-primary);
         margin-bottom: 32px;
       }
-      .btn{
-          max-width: 100px;
-          margin: 0 auto;
-          display: flex;
+      .btn {
+        max-width: 100px;
+        margin: 0 auto;
+        display: flex;
       }
     }
   }
