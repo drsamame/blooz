@@ -4,6 +4,16 @@
 @import "~buefy/src/scss/buefy";
 @import "buttons";
 
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+//transitions
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s;
@@ -14,13 +24,19 @@
     opacity: 0;
 }
 
-input[type="number"] {
-    -moz-appearance: textfield;
+.smooth-enter-active,
+.smooth-leave-active {
+    transition: height 0.5s;
+    overflow: hidden;
+}
+.smooth-enter,
+.smooth-leave-to {
+    height: 0;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+//forPanel
+body.overflow-hidden {
+    overflow: hidden;
 }
 
 .content-field {
@@ -28,6 +44,7 @@ input::-webkit-inner-spin-button {
     overflow: hidden;
 }
 
+//PopUp Style
 .popup-content-text {
     font-size: 14px;
 }
@@ -36,13 +53,17 @@ input::-webkit-inner-spin-button {
     .swal2-popup {
         width: 100%;
         max-width: 360px;
-        .swal2-icon{
+        .swal2-icon {
             margin-top: 0;
         }
-        .swal2-title{
+        .swal2-title {
             font-size: 20px;
             font-weight: 500;
             color: var(--color-primary);
         }
     }
+}
+
+.input,.textarea{
+    background-color: transparent;
 }

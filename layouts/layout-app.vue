@@ -66,13 +66,13 @@ header {
 .main {
   padding: 64px 0px 0px 0;
   display: flex;
-  background-color: #fff;
+  background-color: #F8F8FA;
   flex: 1 0 auto;
   max-width: 100%;
   transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &.open {
-    padding: 64px 0px 0px 230px;
+    padding: 100px 0px 0px 230px;
   }
 
   &__wrap {

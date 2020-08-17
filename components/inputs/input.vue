@@ -194,6 +194,18 @@ export default {
         color: #adb5bd;
       }
     }
+    .textarea {
+      border-right: none;
+      border-left: none;
+      border-top: none;
+      box-shadow: none;
+      border-radius: 0;
+      padding-left: 0;
+      font-size: 14px;
+      height: 32px;
+      color: #2b2b2b;
+      border-width: 2px;
+    }
   }
   .help {
     color: #f95555;
