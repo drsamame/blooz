@@ -255,7 +255,7 @@ export default {
   },
   data() {
     return {
-      activeStep: 2,
+      activeStep: 0,
       model: {},
       card: {},
       card: {
