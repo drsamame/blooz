@@ -2,7 +2,7 @@
   <div class="container-panel" @click.self="closeModalEdit">
     <transition name="transition">
       <div v-if="visible" class="panel-main" :style="'width: '+width">
-        <div class="panel-close">
+        <div class="panel-close" @click="closeModalEdit">
           <b-icon icon="close" size="is-small"></b-icon>
         </div>
         <div class="panel-body">
@@ -69,6 +69,9 @@ export default {
     right: 0;
     height: 100%;
     z-index: 99;
+    @include mobile {
+      width: 100% !important;
+    }
 
     .panel-close {
       position: absolute;
@@ -94,6 +97,10 @@ export default {
       overflow: auto;
       height: 100%;
       padding: 24px 32px;
+      @include mobile {
+        padding-right: 15px;
+        padding-left: 15px;
+      }
     }
   }
 }

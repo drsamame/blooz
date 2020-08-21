@@ -1,7 +1,7 @@
 <template>
   <div class="application">
     <div class="application--wrap">
-      <Header class="header" :class="{'open':isMenuVisible}"/>
+      <Header class="header" :class="{'open':isMenuVisible}" />
       <Navigation :open="isMenuVisible" />
       <main class="main" :class="{'open':isMenuVisible}">
         <div class="main__wrap">
@@ -27,13 +27,29 @@ export default {
     Navigation,
   },
   data() {
-    return {
-    };
+    return {};
+  },
+  created() {
+    window.addEventListener(
+      "resize",
+      function () {
+        this.mediaQuery();
+      }.bind(this)
+    );
+    this.mediaQuery();
   },
   computed: mapState({
     isMenuVisible: (state) => state.is_menu_visible,
   }),
-  methods: {},
+  methods: {
+    mediaQuery() {
+      if (window.matchMedia("(min-width: 1200px)").matches) {
+        console.log("max");
+      } else {
+        console.log("min");
+      }
+    },
+  },
 };
 </script>
 
@@ -42,9 +58,23 @@ header {
   transition-duration: 0.2s;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
-  transition-property: all; 
+  transition-property: all;
   &.open {
     margin: 0 0 0 230px;
+    @include mobile {
+      margin: 0;
+    }
+    /deep/ .openMenu {
+      @include mobile {
+        text-align: center;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.6);
+        width: 150%;
+        position: fixed;
+        top: 0;
+        z-index: 10;
+      }
+    }
   }
 }
 
@@ -64,15 +94,18 @@ header {
 }
 
 .main {
-  padding: 64px 0px 0px 0;
+  padding: 100px 0px 0px 0;
   display: flex;
-  background-color: #F8F8FA;
+  background-color: #f8f8fa;
   flex: 1 0 auto;
   max-width: 100%;
   transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &.open {
     padding: 100px 0px 0px 230px;
+    @include tablet {
+      padding: 100px 0px 36px;
+    }
   }
 
   &__wrap {

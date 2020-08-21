@@ -3,10 +3,20 @@
     <h2 class="title">Mis pedidos</h2>
     <div class="header">
       <div class="filters">
-        <div class="field">
-          <BDatepickerWithValidation name="date" placeholder="Hoy" v-model="model.order"></BDatepickerWithValidation>
+        <div class="field date">
+          <BSelectWithValidation
+            rules="required"
+            name="fecha"
+            expanded
+            v-model="model.date"
+            @change.native="onChangeSelect"
+          >
+            <template v-for="item in groupDates">
+              <option :value="item.value" :key="item.value">{{item.label}}</option>
+            </template>
+          </BSelectWithValidation>
         </div>
-        <div class="field">
+        <div class="field word">
           <BInputWithValidation
             :rules="'max:50|alpha_num_spaces'"
             type="text"
@@ -17,7 +27,7 @@
         </div>
       </div>
       <div class="actions">
-        <b-button class="btn primary" @click="showPanelDetailOrder = true">
+        <b-button class="btn primary" @click="showPanelNewOrder = true">
           <img src="~assets/images/plus.svg" alt />Nuevo pedido
         </b-button>
       </div>
@@ -32,7 +42,7 @@
                 <span class="number">(3)</span>
               </h4>
               <div class="content-cards">
-                <div class="card programmed">
+                <article class="card programmed" @click="showPanelDetailOrder = true">
                   <div class="left">
                     <div class="Norder">Nº 0001</div>
                     <div class="client">Cliente: Juan Rodriguez</div>
@@ -52,7 +62,7 @@
                     </div>
                   </div>
                   <div class="bar"></div>
-                </div>
+                </article>
               </div>
             </div>
             <div class="column is-4">
@@ -61,7 +71,7 @@
                 <span class="number">(2)</span>
               </h4>
               <div class="content-cards">
-                <div class="card in-process">
+                <article class="card in-process">
                   <div class="left">
                     <div class="Norder">Nº 0001</div>
                     <div class="client">Cliente: Juan Rodriguez</div>
@@ -82,7 +92,7 @@
                     <img class="driver-image" src="https://via.placeholder.com/28x28" alt />
                   </div>
                   <div class="bar"></div>
-                </div>
+                </article>
               </div>
             </div>
             <div class="column is-4">
@@ -91,7 +101,7 @@
                 <span class="number">(2)</span>
               </h4>
               <div class="content-cards">
-                <div class="card delivered">
+                <article class="card delivered">
                   <div class="left">
                     <div class="Norder">Nº 0001</div>
                     <div class="client">Cliente: Juan Rodriguez</div>
@@ -110,7 +120,7 @@
                     <img class="driver-image" src="https://via.placeholder.com/28x28" alt />
                   </div>
                   <div class="bar"></div>
-                </div>
+                </article>
               </div>
             </div>
           </div>
@@ -120,7 +130,7 @@
         <b-tabs v-model="activeTab">
           <b-tab-item label="Programados">
             <div class="content-cards">
-              <div class="card programmed">
+              <div class="card programmed" @click="showPanelDetailOrder = true">
                 <div class="left">
                   <div class="Norder">Nº 0001</div>
                   <div class="client">Cliente: Juan Rodriguez</div>
@@ -180,7 +190,8 @@
         </b-tabs>
       </div>
     </section>
-    <PanelOrder v-if="showPanelDetailOrder" @closePanel="closePanel"></PanelOrder>
+    <PanelOrder v-if="showPanelNewOrder" @closePanel="closePanel"></PanelOrder>
+    <PanelDetail v-if="showPanelDetailOrder" @closePanel="closePanel"></PanelDetail>
   </div>
 </template>
 <script>
@@ -191,6 +202,7 @@ import BCheckboxesWithValidation from "@/components/inputs/checkbox";
 import BRadiosWithValidation from "@/components/inputs/radio";
 import BDatepickerWithValidation from "@/components/inputs/datepicker";
 import PanelOrder from "@/components/app/panels/PanelOrder";
+import PanelDetail from "@/components/app/panels/PanelDetail";
 
 export default {
   layout: "layout-app",
@@ -206,17 +218,38 @@ export default {
   },
   data() {
     return {
-      model: {},
+      groupDates: [
+        {
+          label: "Hoy",
+          value: 1,
+        },
+        {
+          label: "Semana",
+          value: 2,
+        },
+        {
+          label: "Mes",
+          value: 3,
+        },
+      ],
+      model: {
+        date: 1,
+      },
       activeTab: 0,
       showPanelDetailOrder: false,
+      showPanelNewOrder: false,
     };
   },
   mounted() {},
   methods: {
+    onChangeSelect() {
+      console.log("cambbue");
+    },
     addOrder(field) {
       console.log(field);
     },
     closePanel() {
+      this.showPanelNewOrder = false;
       this.showPanelDetailOrder = false;
       console.log("panel");
     },
@@ -225,11 +258,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.date {
+  /deep/ .select {
+    select {
+      background-image: url(~assets/images/calendar.svg);
+      background-repeat: no-repeat;
+      background-position: center left;
+      padding-left: 30px;
+    }
+  }
+}
+.word {
+  /deep/ .control {
+    input {
+      background-image: url(~assets/images/search.svg);
+      background-repeat: no-repeat;
+      background-position: center left;
+      padding-left: 30px !important;
+    }
+  }
+}
+
 .listado {
   flex: 1 1 auto;
   max-width: 100%;
   position: relative;
   padding: 20px 40px;
+  @include mobile {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 }
 
 .header {
@@ -238,6 +296,11 @@ export default {
   justify-content: space-between;
   align-items: flex-start;
   height: 60px;
+  @include tablet {
+    flex-direction: column;
+    height: auto;
+    margin-bottom: 40px;
+  }
   .btn {
     img {
       display: inline-block;
@@ -258,9 +321,22 @@ export default {
 .filters {
   display: flex;
   align-items: flex-start;
+  @include mobile {
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+    margin-right: 0;
+  }
   .field {
     margin-right: 24px;
     min-width: 233px;
+    @include tablet {
+      min-width: 200px;
+    }
+    @include mobile {
+      margin-right: 0;
+      min-width: 100%;
+    }
   }
 }
 
@@ -337,10 +413,10 @@ export default {
   }
 }
 
-.mobile{
+.mobile {
   display: none;
   width: 100%;
-  .b-tabs{
+  .b-tabs {
     width: 100%;
   }
 }

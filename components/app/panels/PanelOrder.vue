@@ -119,6 +119,15 @@
                       <h3>Agrega un medio de pago</h3>
                       <div class="field">
                         <BInputWithValidation
+                          rules="required|max:8|min:8|digits"
+                          type="number"
+                          name="Numero de DNI"
+                          placeholder="Numero de DNI"
+                          v-model="card.dni"
+                        />
+                      </div>
+                      <div class="field">
+                        <BInputWithValidation
                           rules="required|max:19|min:13"
                           type="number"
                           name="Numero de tarjeta"
@@ -258,9 +267,6 @@ export default {
       activeStep: 0,
       model: {},
       card: {},
-      card: {
-        date: "",
-      },
       cards: [
         {
           name: "visa",
@@ -283,12 +289,9 @@ export default {
           number: "123456****1234",
         },
       ],
-      customNavigation: false,
       isOpenCard: false,
     };
   },
-  mounted() {},
-  computed: {},
   async created() {},
   methods: {
     closePanel() {
@@ -300,7 +303,7 @@ export default {
     submitStep2() {
       this.activeStep = 2;
     },
-    submitOrder(){
+    submitOrder() {
       this.closePanel();
     },
     onNewCard() {
@@ -313,7 +316,6 @@ export default {
       };
       (this.model.card = "visa"), this.cards.push(card);
     },
-    checkStep2() {},
   },
 };
 </script>
@@ -324,7 +326,7 @@ export default {
   font-size: 20px;
   margin-top: 14px;
   line-height: 24px;
-  color: #205071;
+  color: var(--color-primary);
   margin-bottom: 24px;
 }
 
@@ -340,8 +342,7 @@ export default {
     }
   }
 
-  &.step2,
-   {
+  &.step2 {
     .btn {
       margin-top: 120px;
     }
@@ -379,7 +380,7 @@ export default {
       justify-content: center;
       margin-top: 40px;
     }
-    .btn{
+    .btn {
       margin-top: 120px;
       max-width: 120px;
     }
@@ -390,7 +391,7 @@ export default {
       font-size: 12px;
       line-height: 15px;
       /* identical to box height */
-      color: #205071;
+      color: var(--color-primary);
       img {
         margin-right: 10px;
       }
@@ -425,6 +426,9 @@ export default {
     background-image: url(~assets/images/calendar.svg);
     background-repeat: no-repeat;
     background-position: right center;
+    @include tablet {
+      background: none;
+    }
     &.is-danger {
       background-image: none;
     }
@@ -495,6 +499,9 @@ export default {
             background-position: center center;
             left: 3.5px;
             top: 3.5px;
+            @include tablet {
+              left: 4px;
+            }
           }
         }
       }
@@ -534,7 +541,7 @@ export default {
         }
         ~ .control-label {
           background: rgba(32, 80, 113, 0.1) !important;
-          border: 1px solid #205071 !important;
+          border: 1px solid var(--color-primary) !important;
         }
       }
     }
@@ -665,6 +672,7 @@ export default {
   border: 1px solid #dee2e6;
   border-radius: 8px;
   width: 28px;
+  cursor: pointer;
   height: 28px;
   display: flex;
   align-items: center;

@@ -180,6 +180,11 @@ export default {
   width: 230px;
   max-height: calc(100%);
   box-sizing: border-box;
+  @include tablet {
+    position: fixed;
+    background-color: #fff;
+    z-index: 5;
+  }
 
   .copy {
     position: absolute;

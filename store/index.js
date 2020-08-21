@@ -42,7 +42,6 @@ export const actions = {
     commit('SET_AUTH', payload)
   },
   setMenuVisibility({ commit }, payload) {
-    console.log(payload);
     commit('SET_MENU_VISIBILITY', payload); 
   },
   logOut({ commit }, { req }) {

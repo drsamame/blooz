@@ -41,6 +41,7 @@ export default {
   plugins: [
     { src: '~/plugins/nuxt-client-init.js', ssr: false },
     { src: "~/services/api.js" },
+    { src: "~plugins/leaflet.js", ssr: false },
     { src: "~/services/backend.js" },
     { src: "~plugins/validate.js" },
     { src: "~/plugins/global.js" },

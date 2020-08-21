@@ -1,7 +1,12 @@
 <template>
   <div class="nav-bar">
     <div class="start">
-      <b-icon icon="menu" @click.native="setMenuVisibility(!is_menu_visible)" class="openMenu" size="is-small" ></b-icon>
+      <b-icon
+        icon="menu"
+        @click.native="setMenuVisibility(!is_menu_visible)"
+        class="openMenu"
+        size="is-small"
+      ></b-icon>
     </div>
     <div class="profile end">
       <div class="menu" @click="isPerfilOpen = !isPerfilOpen">
@@ -45,6 +50,15 @@ export default {
       isPerfilOpen: false,
     };
   },
+  created() {
+    window.addEventListener(
+      "resize",
+      function () {
+        this.mediaQuery();
+      }.bind(this)
+    );
+    this.mediaQuery();
+  },
   computed: {
     ...mapState({
       userInfo: "user",
@@ -52,7 +66,14 @@ export default {
     }),
   },
   methods: {
-    ...mapActions(["logOut","setMenuVisibility"]),
+    ...mapActions(["logOut", "setMenuVisibility"]),
+    mediaQuery() {
+      if (window.matchMedia("(min-width: 1200px)").matches) {
+        this.setMenuVisibility(true);
+      } else {
+        this.setMenuVisibility(false);
+      }
+    },
   },
 };
 </script>
@@ -67,20 +88,22 @@ export default {
   left: -230px;
   top: 0;
   z-index: 10;
+  @include mobile {
+    left: 0;
+  }
 }
 .start {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
   .openMenu {
-       color: var(--color-primary);
-       cursor: pointer;
-       font-size: 24px;
-       line-height: 24px;
+    color: var(--color-primary);
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 24px;
     i {
       &::before {
         font-size: 24px;
         height: 24px;
-       
       }
     }
   }
@@ -104,6 +127,14 @@ export default {
   cursor: pointer;
   .person {
     border-radius: 50px;
+    @include mobile {
+      margin-right: 10px;
+    }
+  }
+  .name {
+    @include mobile {
+      display: none;
+    }
   }
 }
 
@@ -112,6 +143,10 @@ export default {
   display: flex;
   flex: 1;
   justify-content: space-between;
+  @include mobile {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 }
 
 .profile {

@@ -64,6 +64,11 @@ body.overflow-hidden {
     }
 }
 
-.input,.textarea{
+.input,
+.textarea {
+    background-color: transparent;
+}
+
+.select select{
     background-color: transparent;
 }
