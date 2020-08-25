@@ -5,12 +5,12 @@
         <h2>Ingresa a tu cuenta</h2>
         <ValidationObserver tag="form" ref="form" v-slot="{ passes }">
           <BInputWithValidation
-            :rules="{ required: true, alpha_dash: true }"
-            type="text"
-            name="user"
+            rules="required|email|max:50"
+            type="email"
+            name="correo"
             label="Usuario"
             placeholder="Ingresa tu usuario"
-            v-model="model.user"
+            v-model="model.email"
           />
           <BInputWithValidation
             :rules="{ required: true, alpha_dash: true }"
@@ -32,6 +32,7 @@ import { ValidationObserver } from "vee-validate";
 import BInputWithValidation from "@/components/inputs/input";
 import { mapActions } from "vuex";
 import $backend from "@/services/backend";
+import * as Swal from "sweetalert2";
 import * as Cookie from "js-cookie";
 
 export default {
@@ -55,11 +56,16 @@ export default {
         this.setAuth(authData);
         this.$router.push("/app/mis-pedidos");
       } catch (err) {
-        const errors = {};
-        for (const item in err.response.data.input) {
-          errors[item] = err.response.data.input[item].name;
-        }
-        this.$refs.form.setErrors(errors);
+        Swal.fire({
+          icon: "error",
+          title: "Opss..",
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: "btn primary",
+          },
+          confirmButtonText: "Entendido",
+          html: `<p class="popup-content-text">${err.response.error_message}</p>`,
+        });
         this.isLoading = false;
       }
     },

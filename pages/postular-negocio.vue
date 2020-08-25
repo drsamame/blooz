@@ -93,10 +93,15 @@
                     </a>
                   </template>
                   <template v-else-if="activeField === structure.length">
-                    <a :key="2" @click="sendForm" class="btn primary">
+                    <b-button
+                      :key="2"
+                      class="btn primary"
+                      @click.native.prevent="sendForm"
+                      :loading="isLoading"
+                    >
                       Enviar datos
                       <img src="~assets/images/arrow-down.svg" alt />
-                    </a>
+                    </b-button>
                   </template>
                   <template v-else>
                     <a :key="3" v-show="field.valid" @click="next" class="btn primary">
@@ -125,6 +130,8 @@
 import { ValidationObserver } from "vee-validate";
 import BSelectWithValidation from "@/components/inputs/select";
 import BInputWithValidation from "@/components/inputs/input";
+import * as Swal from "sweetalert2";
+import $backend from "@/services/backend";
 import BCheckboxesWithValidation from "@/components/inputs/checkbox";
 import BRadiosWithValidation from "@/components/inputs/radio";
 
@@ -142,12 +149,14 @@ export default {
     return {
       activeField: 1,
       isNext: true,
+      isLoading: false,
       structure: [
         {
           position: 1,
-          rules: "required|max:50",
+          rules: "required|max:50|min:2",
           type: "text",
-          name: "social_reazon",
+          model: "company_name",
+          name: "Razón Social", 
           label: "Razón Social",
           value: "",
           valid: false,
@@ -155,49 +164,66 @@ export default {
         },
         {
           position: 2,
+          rules: "required|max:50|min:2",
+          type: "text",
+          model: "commercial_name",
+          label: "Nombre comercial",
+          name: "Nombre comercial",
+          value: "",
+          valid: false,
+          placeholder: "Escribe tu respuesta",
+        },
+
+        {
+          position: 3,
           rules: "required|digits:12|max:12",
           type: "number",
-          name: "ruc",
+          model: "ruc",
+          name: "RUC",
           label: "RUC",
           value: "",
           valid: false,
           placeholder: "Ingresa el RUC de tu empresa (no será público)",
         },
         {
-          position: 3,
+          position: 4,
           rules: "required|email|max:50",
           type: "email",
-          name: "email",
+          name: "Correo electrónico",
+          model: "email",
           label: "Correo electrónico",
           value: "",
           valid: false,
         },
         {
-          position: 4,
+          position: 5,
           rules: "required|max:9|min:7",
           type: "number",
-          name: "phone",
+          model: "phone_number",
           label: "Número de Teléfono / móvil",
-          value: "",
-          valid: false,
-          placeholder: "Escribe tu respuesta",
-        },
-        {
-          position: 5,
-          rules: "required|max:50|min:2|alpha_num_spaces",
-          type: "text",
-          name: "ubication",
-          label: "¿Donde está ubicado?",
+          name: "Número de Teléfono / móvil",
           value: "",
           valid: false,
           placeholder: "Escribe tu respuesta",
         },
         {
           position: 6,
+          rules: "required|max:50|min:2|alpha_num_spaces",
+          type: "text",
+          model: "address",
+          name: "¿Donde está ubicado?",
+          label: "¿Donde está ubicado?",
+          value: "",
+          valid: false,
+          placeholder: "Escribe tu respuesta",
+        },
+        {
+          position: 7,
           type: "radio",
-          name: "type_local",
+          model: "local_type",
           selected: "",
           rules: "required",
+          name: "¿Qué tipo de local comercial tienes?",
           label: "¿Qué tipo de local comercial tienes?",
           valid: false,
           options: [
@@ -223,15 +249,16 @@ export default {
             },
             {
               label: "Otros",
-              value: "Otros",
+              value: "others",
             },
           ],
         },
         {
-          position: 7,
+          position: 8,
           type: "checkbox",
-          name: "accept_terms",
+          model: "accept_terms",
           checked: false,
+          name: "Términos y condiciones",
           label: "Términos y condiciones",
           options: [
             {
@@ -266,10 +293,10 @@ export default {
       const success = await observer.validate();
       if (success) {
         const payload = {};
-        this.structure.forEach((element) => {
-          payload[element.name] = element.value;
+        this.structure.forEach((element) => { 
+          payload[element.model] = element.value;
         });
-        this.$router.push('/exito-negocio')
+        this.submitForm(payload);
       } else {
         for (const key of Object.keys(observer.fields).sort()) {
           if (observer.fields[key].invalid) {
@@ -279,6 +306,27 @@ export default {
             return;
           }
         }
+      }
+    },
+    async submitForm(payload) {
+      this.isLoading = true;
+      try {
+        const response = await $backend.registerClient(payload);
+        console.log(response); 
+        this.isLoading = false;
+        this.$router.push("/exito-negocio");
+      } catch (err) {
+        Swal.fire({
+          icon: "error",
+          title: "Opss..",
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: "btn primary",
+          },
+          confirmButtonText: "Entendido",
+          html: `<p class="popup-content-text">${err.response.error_message }</p>`,
+        });
+        this.isLoading = false;
       }
     },
   },
@@ -375,6 +423,10 @@ export default {
       display: inline-flex;
       padding: 0 10px 0 25px;
       margin-top: 20px;
+      /deep/ span { 
+        display: flex;
+        align-items: center; 
+      }
       img {
         margin: 10px;
         transform: rotate(-90deg);

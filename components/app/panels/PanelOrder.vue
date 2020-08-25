@@ -2,7 +2,7 @@
   <PanelLateral @closePanel="closePanel">
     <template slot="panel-body">
       <div class="new-order">
-        <h2 class="title">Nuevo pedido</h2>
+        <h1 class="title">Nuevo pedido</h1>
       </div>
       <div class="steps">
         <b-steps
@@ -13,95 +13,118 @@
         >
           <b-step-item step="1" label="Pedido">
             <div class="step1 body-step">
-              <h3>Ingresa los siguientes datos</h3>
-              <ValidationObserver tag="form" ref="formOrder" v-slot="{ passes }">
-                <div class="field">
-                  <BInputWithValidation
-                    rules="max:50|required|alpha_spaces"
-                    type="text"
-                    name="nombre cliente"
-                    placeholder="Nombre del cliente"
-                    v-model="model.clientName"
-                  />
-                </div>
-                <div class="field">
-                  <BInputWithValidation
-                    rules="required|max:9|min:7"
-                    type="number"
-                    name="telefono"
-                    placeholder="Teléfono del cliente"
-                    v-model="model.clientPhone"
-                  />
-                </div>
-                <div class="field">
-                  <BDatepickerWithValidation
-                    rules="required"
-                    name="Fecha de entrega"
-                    placeholder="Fecha de entrega"
-                    v-model="model.deliveryDay"
-                  ></BDatepickerWithValidation>
-                </div>
-                <div class="field">
-                  <BInputWithValidation
-                    rules="max:50|required|alpha_num_spaces"
-                    type="text"
-                    name="Dirección de recojo"
-                    placeholder="Dirección de recojo"
-                    v-model="model.pickAddress"
-                  />
-                </div>
-                <div class="field">
-                  <BInputWithValidation
-                    rules="max:50|required|alpha_num_spaces"
-                    type="text"
-                    name="Dirección de entrega"
-                    placeholder="Dirección de entrega"
-                    v-model="model.deliveryAddress"
-                  />
-                </div>
-                <div class="field">
-                  <BInputWithValidation
-                    rules="max:350|alpha_num_spaces"
-                    type="textarea"
-                    name="Información extra"
-                    placeholder="Información extra para el repartidor"
-                    v-model="model.extraInfo"
-                  />
-                </div>
-                <h3 class="title-bottom">Selecciona al tamaño del pedido</h3>
+              <div class="top">
+                <h2 class="subtitle">
+                  Pedidos
+                  <span>({{orders.length}})</span>
+                </h2>
 
-                <div class="field">
-                  <BRadiosWithValidation rules="required" name="orderSize">
-                    <b-radio v-model="model.orderSize" native-value="small">
-                      <div class="item small">
-                        <img class="image" src="~assets/images/isotipe.svg" alt />
-                        <div class="name">Pequeño</div>
-                        <p class="description">Como una caja de zapatos</p>
-                      </div>
-                    </b-radio>
-                    <b-radio v-model="model.orderSize" native-value="medium">
-                      <div class="item medium">
-                        <img class="image" src="~assets/images/isotipe.svg" alt />
-                        <div class="name">Mediano</div>
-                        <p class="description">Como un microondas</p>
-                      </div>
-                    </b-radio>
-                    <b-radio v-model="model.orderSize" native-value="big">
-                      <div class="item big">
-                        <img class="image" src="~assets/images/isotipe.svg" alt />
-                        <div class="name">Grande</div>
-                        <p class="description">Como una TV 23 pulgadas</p>
-                      </div>
-                    </b-radio>
-                  </BRadiosWithValidation>
-                </div>
+                <b-button class="btn trans" @click="addOrder">Agregar Pedido</b-button>
+              </div>
 
-                <b-button class="btn trans" @click="closePanel">Cancelar</b-button>
-                <b-button class="btn primary" @click="passes(submitStep1)">
-                  Continuar
-                  <img src="~assets/images/arrow-down.svg" alt />
-                </b-button>
-              </ValidationObserver>
+              <b-tabs type="is-boxed">
+                <template v-for="(order, index) in orders">
+                  <b-tab-item :key="index">
+                    <template slot="header">
+                      <div class="title-tab">
+                        {{index +1}}
+                        <b-icon
+                          size="is-small"
+                          icon="close"
+                          v-show="index !== 0"
+                          @click.native.stop="removeOrder(index)"
+                        ></b-icon>
+                      </div>
+                    </template>
+
+                    <ValidationObserver tag="form" ref="formOrder" v-slot="{ passes }">
+                      <h3>Ingresa los siguientes datos</h3>
+                      <div class="field">
+                        <BInputWithValidation
+                          rules="max:50|required|alpha_spaces"
+                          type="text"
+                          name="nombre cliente"
+                          placeholder="Nombre del cliente"
+                          v-model="order.model.client_name"
+                        />
+                      </div>
+                      <div class="field">
+                        <BInputWithValidation
+                          rules="required|max:9|min:7"
+                          type="number"
+                          name="telefono"
+                          placeholder="Teléfono del cliente"
+                          v-model="order.model.client_phone"
+                        />
+                      </div>
+                      <div class="field">
+                        <BDatepickerWithValidation
+                          rules="required"
+                          name="Fecha de entrega"
+                          placeholder="Fecha de entrega"
+                          v-model="order.model.delivery_day"
+                        ></BDatepickerWithValidation>
+                      </div>
+                      <div class="field">
+                        <BInputWithValidation
+                          rules="max:50|required|alpha_num_spaces"
+                          type="text"
+                          name="Dirección de recojo"
+                          placeholder="Dirección de recojo"
+                          v-model="order.model.pick_address"
+                        />
+                      </div>
+                      <div class="field">
+                        <BInputWithValidation
+                          rules="max:50|required|alpha_num_spaces"
+                          type="text"
+                          name="Dirección de entrega"
+                          placeholder="Dirección de entrega"
+                          v-model="order.model.delivery_address"
+                        />
+                      </div>
+                      <div class="field">
+                        <BInputWithValidation
+                          rules="max:350|alpha_num_spaces"
+                          type="textarea"
+                          name="Información extra"
+                          placeholder="Información extra para el repartidor"
+                          v-model="order.model.extraInfo"
+                        />
+                      </div>
+                      <h3 class="title-bottom">Agregar Paquetes +</h3>
+                
+                      <div class="field">
+                        
+                      </div>
+
+                      <div class="control-label">
+                        <div class="item medium">
+                          <img class="image" src="~assets/images/isotipe.svg" alt />
+                          <div class="name">Mediano</div>
+                          <p class="description">Como un microondas</p>
+                        </div>
+                        <div class="content-price">
+                          <BInputWithValidation
+                            rules="max:5|required|max_value:5000|min_value:1000"
+                            type="number"
+                            label="Precio aproximado"
+                            class="price"
+                            name="precio aproximado"
+                            v-model="value"
+                          />
+                          <b-slider :type="'is-primary'" v-model="value"></b-slider>
+                        </div>
+                      </div>
+                      <b-button class="btn trans" @click="closePanel">Cancelar</b-button>
+                      <b-button class="btn primary" @click="passes(submitStep1)">
+                        Continuar
+                        <img src="~assets/images/arrow-down.svg" alt />
+                      </b-button>
+                    </ValidationObserver>
+                  </b-tab-item>
+                </template>
+              </b-tabs>
             </div>
           </b-step-item>
 
@@ -264,7 +287,26 @@ export default {
   },
   data() {
     return {
+      packSize: "",
+      sizes: [],
+      typeDocuments: [
+        {
+          label: "DNI",
+          value: 1,
+        },
+        {
+          label: "RUC",
+          value: 2,
+        },
+      ],
       activeStep: 0,
+      value: 20,
+      orders: [
+        {
+          number: 1,
+          model: {},
+        },
+      ],
       model: {},
       card: {},
       cards: [
@@ -294,6 +336,18 @@ export default {
   },
   async created() {},
   methods: {
+    removeOrder(index) {
+      if (index !== 0) {
+        this.orders.splice(index, 1);
+      }
+    },
+    addOrder() {
+      const order = {
+        number: 2,
+        model: {},
+      };
+      this.orders.push(order);
+    },
     closePanel() {
       this.$emit("closePanel");
     },
@@ -321,6 +375,62 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/ .b-slider {
+  .b-tooltip {
+    &.is-top.is-primary {
+      &::before {
+        border-top: 5px solid var(--color-primary) !important;
+      }
+      &::after {
+        background: var(--color-primary) !important;
+      }
+    }
+  }
+  &.is-primary {
+    .b-slider-fill {
+      background-color: var(--color-primary) !important;
+    }
+  }
+}
+/deep/ .tabs {
+  ul {
+    li {
+      min-width: 80px;
+      a {
+        .title-tab {
+          /deep/ .mdi-close {
+            background-color: #dee2e6;
+            border-radius: 50px;
+            font-size: 12px;
+            line-height: 10px;
+            color: #215070;
+            padding: 0 2px;
+            &::before {
+              line-height: 16px;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+    }
+    li.is-active a {
+      background-color: var(--color-primary);
+      color: #fff;
+      .title-tab {
+        /deep/ .mdi-close {
+          background-color: transparent;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+.title-tab {
+  font-size: 16px;
+  font-weight: 500;
+  /deep/ .mdi-close {
+  }
+}
 .title {
   font-weight: bold;
   font-size: 20px;
@@ -329,8 +439,25 @@ export default {
   color: var(--color-primary);
   margin-bottom: 24px;
 }
+.subtitle {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-primary);
+  margin: 0;
+}
 
 .body-step {
+  .top {
+    display: flex;
+    margin-top: 14px;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    .btn {
+      margin-right: 0 !important;
+    }
+  }
   h3 {
     font-weight: 600;
     font-size: 14px;
@@ -339,6 +466,10 @@ export default {
     color: var(--color-primary);
     &.title-bottom {
       margin-top: 32px;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 
@@ -596,6 +727,74 @@ export default {
           top: -1px;
           left: -8px;
         }
+      }
+    }
+  }
+}
+
+.control-label {
+  padding-left: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-right: 0;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  align-items: flex-start;
+  padding: 20px;
+  .item {
+    position: relative;
+    flex: 1;
+    padding-left: 60px;
+    .name {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 15px;
+      color: var(--color-primary);
+      margin-bottom: 2px;
+    }
+    .description {
+      font-weight: normal;
+      font-size: 12px;
+      line-height: 15px;
+      color: #2b2b2b;
+    }
+    .image {
+      position: absolute;
+      left: 0;
+      top: -4px;
+      width: 40px;
+    }
+  }
+  .content-price {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 15px;
+    flex: 1;
+    width: 100%;
+    /deep/ .label {
+      font-size: 12px;
+      color: var(--color-primary);
+    }
+    /deep/ .aproximado {
+      max-width: 120px;
+      position: relative;
+      &::before {
+        content: "S/";
+        position: absolute;
+        left: 0;
+        font-size: 18px;
+        bottom: 0;
+        font-weight: bold;
+        color: var(--color-primary);
+      }
+
+      input {
+        font-weight: bold;
+        padding-left: 25px;
+        font-size: 25px;
+        color: var(--color-primary);
       }
     }
   }

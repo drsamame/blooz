@@ -22,6 +22,11 @@
 /deep/ .has-text-danger {
   font-size: 12px;
 }
+/deep/ .datepicker-header{
+  .field{
+    flex-direction: row;
+  }
+}
 /deep/ .field {
   display: flex;
   flex-direction: column;

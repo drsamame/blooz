@@ -11,7 +11,7 @@
     <div class="profile end">
       <div class="menu" @click="isPerfilOpen = !isPerfilOpen">
         <img class="person" src="https://via.placeholder.com/24x24" alt />
-        <p class="name">{{userInfo.fullname}}</p>
+        <p class="name">{{userInfo.first_name}} {{userInfo.last_name}}</p>
         <img class="profile__arrow" src="~/assets/images/select_arrow.svg" alt />
       </div>
       <div class="notify">
@@ -23,9 +23,9 @@
           <div class="profile__popup">
             <header>
               <div class="image">
-                <img class="profile__image" src="https://via.placeholder.com/24x24" alt />
+                <img class="profile__image" src="https://via.placeholder.com/50x50" alt />
               </div>
-              <p class="name">{{userInfo.fullname}}</p>
+              <p class="name">{{userInfo.first_name}}</p>
               <p class="email">{{userInfo.email}}</p>
             </header>
             <footer class="footer">

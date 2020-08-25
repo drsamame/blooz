@@ -77,10 +77,12 @@
                     :name="field.name"
                     expanded
                     :placeholder="field.placeholder"
-                    v-model="field.selected"
+                    v-model="field.value"
+                    @change.native="onChangeSelect(field)"
                   >
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
+                    <template v-for="item in field.options">
+                      <option :value="item.value" :key="item.value">{{item.label}}</option>
+                    </template>
                   </BSelectWithValidation>
                 </template>
 
@@ -108,10 +110,15 @@
                     </a>
                   </template>
                   <template v-else-if="activeField === structure.length">
-                    <a :key="2" @click="sendForm" class="btn primary">
+                    <b-button
+                      :key="2"
+                      class="btn primary"
+                      @click.native.prevent="sendForm"
+                      :loading="isLoading"
+                    >
                       Enviar datos
                       <img src="~assets/images/arrow-down.svg" alt />
-                    </a>
+                    </b-button>
                   </template>
                   <template v-else>
                     <a :key="3" v-show="field.valid" @click="next" class="btn primary">
@@ -143,6 +150,8 @@ import BInputWithValidation from "@/components/inputs/input";
 import BCheckboxesWithValidation from "@/components/inputs/checkbox";
 import BRadiosWithValidation from "@/components/inputs/radio";
 import BDatepickerWithValidation from "@/components/inputs/datepicker";
+import * as Swal from "sweetalert2";
+import $backend from "@/services/backend";
 
 export default {
   layout: "layout-postulate",
@@ -158,13 +167,15 @@ export default {
   data() {
     return {
       activeField: 1,
+      isLoading: false,
       isNext: true,
       structure: [
         {
           position: 1,
           rules: "required|max:50|min:2|alpha_spaces",
           type: "text",
-          name: "names",
+          model: "first_name",
+          name: "Nombres",
           label: "Nombres",
           value: "",
           valid: false,
@@ -174,8 +185,9 @@ export default {
           position: 2,
           rules: "required|max:50|min:2|alpha_spaces",
           type: "text",
-          name: "lastnames",
+          model: "last_name",
           label: "Apellidos",
+          name: "Apellidos",
           value: "",
           valid: false,
           placeholder: "Escribe tus respuesta",
@@ -184,170 +196,191 @@ export default {
           position: 3,
           rules: "required|email|max:50",
           type: "email",
-          name: "email",
+          model: "email",
           label: "Correo electrónico",
+          name: "Correo electrónico",
           value: "",
           valid: false,
         },
         {
           position: 4,
-          type: "radio",
-          name: "type_local",
-          rules: "required",
-          label: "¿Dónde resides?",
+          rules: "required|max:50|min:2|alpha_num_spaces",
+          type: "text",
+          model: "address",
+          name: "¿Donde está ubicado?",
+          label: "¿Donde está ubicado?",
+          value: "",
           valid: false,
+          placeholder: "Escribe tu respuesta",
+        },
+        {
+          position: 5,
+          type: "select",
+          model: "document_type",
+          value: null,
+          rules: "required",
+          placeholder: "Tipo de documento",
+          valid: false,
+          label: "Tipo de documento",
+          description: "Elige tu tipo de documento",
           options: [
             {
-              label: "Lima",
-              value: "Lima",
+              label: "DNI",
+              value: "dni",
             },
             {
-              label: "San Juan de Lurigancho",
-              value: "San Juan de Lurigancho",
-            },
-            {
-              label: "Farmacia",
-              value: "Farmacia",
+              label: "CE",
+              value: "ce",
             },
           ],
         },
         {
-          position: 5,
-          rules: "required|min:8|max:12",
+          position: 6,
+          rules: "required|min:8|max:14",
           type: "number",
-          name: "document",
+          model: "document_code",
           label: "Número de DNI o CE",
+          name: "Número de DNI o CE",
           value: "",
           valid: false,
           placeholder: "Escribe tu respuesta",
-        },
-        {
-          position: 6,
-          type: "datepicker",
-          rules: "required",
-          name: "birth_date",
-          rules: "required",
-          placeholder: "Escribe tu respuesta",
-          label: "Fecha de Nacimiento",
         },
         {
           position: 7,
+          type: "datepicker",
+          rules: "required",
+          model: "birthdate",
+          rules: "required",
+          placeholder: "Escribe tu respuesta",
+          label: "Fecha de Nacimiento",
+          name: "Fecha de Nacimiento",
+        },
+        {
+          position: 8,
           rules: "required|max:9|min:7|",
           type: "number",
-          name: "phone",
+          model: "phone_number",
           label: "Número de Teléfono / móvil",
+          name: "Número de Teléfono / móvil",
           value: "",
           valid: false,
           placeholder: "Escribe tu respuesta",
         },
         {
-          position: 8,
+          position: 9,
           placeholder: "Escribe tu respuesta",
           label: "Información sobre tu vehículo",
           rules: "required|max:20|min:2|alpha_num_spaces",
           description: "Indicanos la marca",
+          name: "marca",
           type: "text",
-          name: "vehice_brand",
-
-          valid: false,
-        },
-        {
-          position: 9,
-          label: "Información sobre tu vehículo",
-          description: "Indicanos el modelo",
-          placeholder: "Escribe tu respuesta",
-          rules: "required|max:20|min:2|alpha_num_spaces",
-          type: "text",
-          name: "vehice_model",
+          model: "mark",
           valid: false,
         },
         {
           position: 10,
           label: "Información sobre tu vehículo",
-          description: "Indicanos el año",
+          description: "Indicanos el modelo",
           placeholder: "Escribe tu respuesta",
-          rules: "required|max:4|min:2",
-          type: "number",
-          name: "vehice_year",
+          name: "modelo",
+          rules: "required|max:20|min:2|alpha_num_spaces",
+          type: "text",
+          model: "model",
           valid: false,
         },
         {
           position: 11,
           label: "Información sobre tu vehículo",
-          description: "Indicanos la placa",
+          description: "Indicanos el año",
+          name: "año del vehículo",
           placeholder: "Escribe tu respuesta",
-          rules: "required|max:8|min:2|alpha_dash",
-          type: "text",
-          name: "vehice_id",
+          rules: "required|max:4|min:2",
+          type: "number",
+          model: "year",
           valid: false,
         },
         {
           position: 12,
-          type: "radio",
-          name: "vehicle_is_owner",
-          rules: "required",
           label: "Información sobre tu vehículo",
-          description: "Indicanos si eres dueño",
+          description: "Indicanos la placa",
+          name: "placa",
+          placeholder: "Escribe tu respuesta",
+          rules: "required|max:8|min:2|alpha_dash",
+          type: "text",
+          model: "car_plate",
           valid: false,
-          options: [
-            {
-              label: "Si",
-              value: "Si",
-            },
-            {
-              label: "No",
-              value: "No",
-            },
-          ],
         },
         {
           position: 13,
           type: "radio",
-          name: "vehicle_fuel",
+          model: "car_owner",
           rules: "required",
           label: "Información sobre tu vehículo",
-          description: "Indicanos el tipo de combustible ",
+          description: "Indicanos si eres dueño",
+          description: "propiedad",
           valid: false,
           options: [
             {
-              label: "Gasolina",
-              value: "Gasolina",
+              label: "Si",
+              value: true,
             },
             {
-              label: "Petroleo / Diesel",
-              value: "Petroleo / Diesel",
-            },
-            {
-              label: "Gas",
-              value: "Gas",
+              label: "No",
+              value: false,
             },
           ],
         },
         {
           position: 14,
           type: "radio",
-          name: "disponibility",
+          model: "fuel_type",
           rules: "required",
-          label: "¿Cuantas horas a la semana estarías dispuesto a trabajar",
+          label: "Información sobre tu vehículo",
+          description: "Indicanos el tipo de combustible ",
+          name: "combustible ",
           valid: false,
           options: [
             {
-              label: "Mas de 25 horas a la semana",
-              value: "Mas de 25 horas a la semana",
+              label: "Gasolina",
+              value: "GASOLINE",
             },
             {
-              label: "Menos de 25 horas a la semana",
-              value: "Menos de 25 horas a la semana",
+              label: "Petroleo / Diesel",
+              value: "PETROL/DIESEL",
+            },
+            {
+              label: "Gas",
+              value: "GAS",
             },
           ],
         },
         {
           position: 15,
+          type: "radio",
+          model: "work_hours",
+          rules: "required",
+          label: "¿Cuantas horas a la semana estarías dispuesto a trabajar",
+          name: "disponilidad",
+          valid: false,
+          options: [
+            {
+              label: "Mas de 25 horas a la semana",
+              value: "MINOR25",
+            },
+            {
+              label: "Menos de 25 horas a la semana",
+              value: "MAYOR25",
+            },
+          ],
+        },
+        {
+          position: 16,
           type: "checkbox",
-          name: "accept_terms",
+          model: "accept_terms",
           checked: false,
-          description: "abbbalall",
+          description: "",
           label: "Términos y condiciones",
+          name: "Términos y condiciones",
           options: [
             {
               label:
@@ -369,30 +402,57 @@ export default {
       this.isNext = false;
       this.activeField -= 1;
     },
-    onChangeRadio(field) {
-      field.valid = field.value;
+    onChangeSelect(field) {
+      console.log(field);
+      field.value;
+      field.valid = true;
     },
     onChangeDatepicker(field) {
-      console.log(field);
       field.valid = field.value;
     },
     onChangeRadio(field) {
-      console.log(field);
       field.valid = field.value;
     },
     onSingleValidation(result, name) {
       let field = this.structure.find((field) => field.name === name);
       field.valid = result.valid;
     },
+    async submitForm(payload) {
+      this.isLoading = true;
+      try {
+        const response = await $backend.registerDriver(payload);
+        console.log(response); 
+        this.isLoading = false;
+        this.$router.push("/exito-repartidor");
+      } catch (err) {
+        Swal.fire({
+          icon: "error",
+          title: "Opss..",
+          buttonsStyling: false,
+          customClass: {
+            confirmButton: "btn primary",
+          },
+          confirmButtonText: "Entendido",
+          html: `<p class="popup-content-text">${err.response.error_message}</p>`,
+        });
+        this.isLoading = false;
+      }
+    },
     async sendForm() {
       const observer = this.$refs.observer;
       const success = await observer.validate();
       if (success) {
         const payload = {};
+        const vehicle = {};
         this.structure.forEach((element) => {
-          payload[element.name] = element.value;
+          if (element.label === "Información sobre tu vehículo") {
+            vehicle[element.model] = element.value;
+          } else {
+            payload[element.model] = element.value;
+          }
         });
-        this.$router.push("/exito-repartidor");
+        payload["deliver_car"] = vehicle;
+        this.submitForm(payload);
       } else {
         for (const key of Object.keys(observer.fields).sort()) {
           if (observer.fields[key].invalid) {
@@ -498,6 +558,10 @@ export default {
       display: inline-flex;
       padding: 0 10px 0 25px;
       margin-top: 20px;
+      /deep/ span {
+        display: flex;
+        align-items: center;
+      }
       img {
         margin: 10px;
         transform: rotate(-90deg);

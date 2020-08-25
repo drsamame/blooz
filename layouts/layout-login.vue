@@ -12,7 +12,7 @@
             </div>
           </template>
           <template slot="start">
-            <b-navbar-item href="#">Quiero postular</b-navbar-item>
+            <p>Quiero postular</p>
           </template>
           <template slot="end">
             <p class="call">
@@ -140,10 +140,12 @@ export default {
       @include tablet {
         margin-left: 0;
       }
-      a {
+      a,p {
         color: #fff;
         font-size: 12px;
         line-height: 15px;
+        align-items: center;
+        display: flex;
         font-weight: normal;
         padding: 0 0 0 30px;
         &:hover {

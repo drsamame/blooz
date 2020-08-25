@@ -18,4 +18,10 @@ export default {
   resetPassword(payload) {
     return publicApi.post('/client/reset_password', payload);
   },
+  registerDriver(payload) {
+    return publicApi.post('/registro-repartidor', payload);
+  },
+  registerClient(payload) {
+    return publicApi.post('/registro-negocio', payload);
+  },
 }
