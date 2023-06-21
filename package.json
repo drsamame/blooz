@@ -19,7 +19,7 @@
     "js-cookie": "^2.2.1",
     "leaflet": "^1.6.0",
     "moment": "^2.27.0",
-    "nuxt": "^2.13.0",
+    "nuxt": "^3.4.3",
     "nuxt-buefy": "^0.3.31",
     "nuxt-sass-resources-loader": "^2.0.5",
     "sweetalert2": "^9.17.1",
